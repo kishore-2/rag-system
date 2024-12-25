@@ -1,0 +1,10 @@
+gradio
+langchain
+pypdf
+faiss-cpu
+groq
+python-dotenv
+langchain-community
+sentence-transformers
+pymupdf
+huggingface-hub
