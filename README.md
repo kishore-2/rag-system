@@ -1,7 +1,7 @@
 # RAG System with Gradio
 
 ### Overview
-This project implements a **Retrieval-Augmented Generation (RAG)** system using Python, LangChain, and Gradio. It enables users to upload a PDF or use an example PDF and interact with its content by asking queries. The system uses advanced AI to retrieve relevant content and provide meaningful answers.
+This project, **"Chat with Your Documents"**, was developed as part of the **Infosys Springboard Internship 5.0** program. The application implements a **Retrieval-Augmented Generation (RAG)**  system using Python, LangChain, and Gradio. It enables users to upload a PDF or use an example PDF and interact with its content by asking queries. The system uses advanced AI to retrieve relevant content and provide meaningful answers.
 
 ---
 
@@ -51,13 +51,26 @@ Create a .env file in the root directory and add your API key:
 ```plaintext
 GROQ_API_KEY=your_api_key_here
 ```
-#### 5. Run the Application Locally
+#### 5. Verify the Token
+Run the verifytoken.py script to ensure your API key is valid:
+
+```bash
+python verifytoken.py
+```
+If the token is valid, you should see:
+
+```csharp
+The token is validated and working good!
+```
+#### 6. Run the Application Locally
 Start the Gradio application:
 
 ```bash
 python app.py
 ```
 Access the application in your browser via the local link (e.g., http://127.0.0.1:7860).
+
+---
 
 ### Using the Application:
 #### 1. Upload a PDF
@@ -70,6 +83,8 @@ Access the application in your browser via the local link (e.g., http://127.0.0.
 #### 8. Click any of the predefined queries or type your own.
 #### 9. Get Answers
 #### 10. The system retrieves relevant content from the PDF and generates an answer using the Groq API.
+
+---
 
 ### Project Structure
 ```bash
@@ -84,15 +99,22 @@ rag-system/
 ```
 Deploying to Hugging Face Spaces
 
+---
+
 ### Clone your Hugging Face Space repository:
 ```bash
 git clone https://huggingface.co/spaces/huggyy/rag-project
 cd rag-project
 ```
+
+---
+
 ### Copy the required files:
 app.py
 requirements.txt
 Any additional files like example PDFs.
+
+---
 
 ### Add and push the files:
 ```bash
@@ -101,6 +123,8 @@ git commit -m "Deploy RAG system"
 git push
 ```
 Add your API key as a secret in the Hugging Face Space settings.
+
+---
 
 ### Dependencies
 ```bash
@@ -116,8 +140,15 @@ pymupdf
 huggingface-h
 ```
 
+---
+
 ### License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
+---
+
 ### Contributing
 Contributions are welcome! Feel free to fork the repository and submit a pull request. For major changes, open an issue to discuss what you would like to contribute.
+
+---
+
