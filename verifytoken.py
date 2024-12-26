@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 def verify_groq_key():
@@ -8,6 +9,7 @@ def verify_groq_key():
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         raise EnvironmentError("GROQ_API_KEY is missing in the environment variables.")
+    # Optionally add more checks if the Groq API provides a validation endpoint.
     return "The token is validated and working good!"
 
 if __name__ == "__main__":

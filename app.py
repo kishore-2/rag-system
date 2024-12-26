@@ -1,11 +1,10 @@
-
 import os
 import time
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import gradio as gr
@@ -14,11 +13,15 @@ from groq import Groq
 
 # Load environment variables
 load_dotenv()
+api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    raise EnvironmentError("GROQ_API_KEY is missing! Please add it as a secret or in a .env file.")
+
 verification_message = verify_groq_key()
 print(verification_message)
 
 # Initialize Groq client
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+client = Groq(api_key=api_key)
 
 def process_pdf_and_query(pdf_file, query):
     try:
