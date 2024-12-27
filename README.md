@@ -86,6 +86,12 @@ Access the application in your browser via the local link (e.g., http://127.0.0.
 
 ---
 
+## Architecture Diagram
+
+
+<img src="https://github.com/user-attachments/assets/cd2fcaaf-19ce-4037-ad42-5fe5c5718853" alt="RAG System Diagram" width="700" />
+
+---
 
 # Pandas AI Agent
 
