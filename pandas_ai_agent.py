@@ -7,11 +7,6 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 
 
 def load_data(file_path):
-    """
-    Load a dataset into a Pandas DataFrame.
-    :param file_path: Path to the dataset file.
-    :return: Pandas DataFrame
-    """
     try:
         df = pd.read_excel(file_path)
         print("Data successfully loaded!")
@@ -23,9 +18,6 @@ def load_data(file_path):
 
 
 def main():
-    """
-    Main function to set up and interact with the Pandas AI Agent.
-    """
     # Load environment variables
     load_dotenv()
     api_key = os.getenv("GROQ_API_KEY")

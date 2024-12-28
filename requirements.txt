@@ -1,10 +1,10 @@
 gradio
-langchain
-pypdf
-faiss-cpu
 groq
-python-dotenv
-langchain-community
-sentence-transformers
+pypdf
 pymupdf
+python-dotenv
+langchain
+langchain-community
+faiss-cpu
 huggingface-hub
+sentence-transformers
