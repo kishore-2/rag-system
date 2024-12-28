@@ -122,7 +122,7 @@ Residual (Y - Y'): Difference between actual and predicted target values.
 #### 3. Install Dependencies
 Make sure all required Python libraries are installed:
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-1.txt
 ```
 #### 4. Add Your Groq API Key
 Set up the GROQ_API_KEY in your .env file:
