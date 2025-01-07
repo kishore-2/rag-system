@@ -6,7 +6,8 @@ This project, **"Chat with Your Documents"**, was developed as part of the **Inf
 ---
 
 ## Features
-- Upload your own PDF or use the included example PDF here (**[Using ai to address medical needs.pdf](https://github.com/user-attachments/files/18259705/Using.ai.to.address.medical.needs.pdf)**).
+- Upload your own PDF or use the example PDF here --> **"[AI in Health Care  REPORT.pdf](https://github.com/user-attachments/files/18326815/AI.in.Health.Care.REPORT.pdf)"**
+).
 - Automatically split documents into manageable chunks for efficient processing.
 - Retrieve relevant content using a FAISS vector store.
 - Generate context-aware answers with the Groq API.
@@ -21,10 +22,11 @@ This project, **"Chat with Your Documents"**, was developed as part of the **Inf
 ## Example Queries
 
 
-You can download and use the example PDF provided here -->  **"[Using ai to address medical needs.pdf](https://github.com/user-attachments/files/18259705/Using.ai.to.address.medical.needs.pdf)"**, and try these sample queries:
-1. **What are the benefits of AI in healthcare?**
-2. **How does AI assist in patient monitoring?**
-3. **What are the ethical considerations of using AI in healthcare?**
+You can download and use the example PDF provided here -->  **"[AI in Health Care  REPORT.pdf](https://github.com/user-attachments/files/18326815/AI.in.Health.Care.REPORT.pdf)"**, and try these sample queries:
+1. **List two challenges of AI in healthcare.**
+2. **What is discussed in the "Future Directions" section?**
+3. **How can AI improve healthcare access in low-resource settings?**
+4. **What are the limitations of AI in critical medical decision-making?**
 
 ---
 
