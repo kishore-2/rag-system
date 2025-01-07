@@ -10,7 +10,6 @@ from langchain.chains import RetrievalQA
 import gradio as gr
 from groq import Groq
 
-# Load environment variables
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     raise EnvironmentError("GROQ_API_KEY is missing! Please add it as a secret in the Hugging Face Space settings.")
