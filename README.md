@@ -19,6 +19,12 @@ This project, **"Chat with Your Documents"**, was developed as part of the **Inf
 
 ---
 
+## Output
+
+<img src="https://github.com/user-attachments/assets/c9ddf363-b1ac-4a7e-acd2-eabc3ff48f56" alt="Output pic" width="700" />
+
+---
+
 ## Usefulness
 
 #### This project helps researchers, professionals, and students find answers quickly and accurately from specific documents. Here's why it’s valuable:
