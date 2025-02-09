@@ -1,7 +1,7 @@
 # RAG System with Gradio
 
-### Overview
-This project, **"Chat with Your Documents"**, was developed as part of the **Infosys Springboard Internship 5.0** program. The application implements a **Retrieval-Augmented Generation (RAG)**  system using Python, LangChain, and Gradio. It enables users to upload a PDF and interact with its content by asking queries. The system uses advanced AI to retrieve relevant content and provide meaningful answers. In addition to the RAG system, this project includes a **Pandas AI Agent** which leverages advanced AI to analyze tabular data in a Pandas DataFrame. It enables you to query datasets in natural language, extract insights, and draw conclusions effortlessly. This implementation was built using **LangChain**, **Groq**, and **Pandas** to process data and respond to queries.
+## Overview
+This project, **"Chat with Your Documents"**, was developed as part of the **Infosys Springboard Internship 5.0** program. The application implements a **Retrieval-Augmented Generation (RAG)**  system using Python, LangChain, and Gradio. It enables users to upload a PDF and interact with its content by asking queries. The system uses advanced AI to retrieve relevant content and provide meaningful answers. 
 
 ---
 
@@ -112,50 +112,6 @@ Start the Gradio application:
 python app.py
 ```
 Access the application in your browser via the local link (e.g., http://127.0.0.1:7860).
-
----
-
-# Pandas AI Agent
-
-## Features
-- Analyze datasets interactively using natural language queries.
-- Retrieve statistical summaries and correlations from the data.
-- Gain insights and conclusions about data relationships.
-
----
-
-## Setup Instructions
-
-#### 1. Clone the Repository
-Ensure you have the repository set up locally:
-```bash
-git clone https://github.com/kishore-2/rag-system.git
-cd rag-system
-```
-#### 2. Add the Dataset
-Ensure the dataset file is present, or download and use this xlsx --> [Simple_linear_regression_prediction.xlsx](https://github.com/user-attachments/files/18259771/Simple_linear_regression_prediction.xlsx). 
-This dataset represents a regression example with the following columns:
-```plaintext
-X (Feature): Input feature values.
-Y (Target): Target values for prediction.
-Prediction (Y'): Predicted values for the target.
-Residual (Y - Y'): Difference between actual and predicted target values.
-```
-#### 3. Install Dependencies
-Make sure all required Python libraries are installed:
-```bash
-pip install -r requirements-1.txt
-```
-#### 4. Add Your Groq API Key
-Set up the GROQ_API_KEY in your .env file:
-```plaintext
-GROQ_API_KEY=your_api_key_here
-```
-#### # 5. Run the Script
-Launch the pandas_ai_agent.py script:
-```bash
-python pandas_ai_agent.py
-```
 
 ---
 
