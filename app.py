@@ -10,11 +10,24 @@ from langchain.chains import RetrievalQA
 import gradio as gr
 from groq import Groq
 
+load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     raise EnvironmentError("GROQ_API_KEY is missing! Please add it as a secret in the Hugging Face Space settings.")
-
 client = Groq(api_key=api_key)
+
+EXAMPLE_QUERIES = [
+    "Provide a brief outline of this document.",
+    "What is the summary points of this document?",
+    "List the main topics discussed in this document.",
+    "What are the key takeaways from this document?",
+    "Explain the purpose of this document.",
+    "What are the key findings of this document?",
+    "What are the main conclusions of this document?",
+    "What are the limitations of this document?",
+    "Identify the challenges or problems discussed in this document.",
+    "What methodology or approach is discussed in this document?",
+]
 
 def process_pdf_and_query(pdf_file, query):
     try:
@@ -49,6 +62,9 @@ interface = gr.Interface(
     outputs="text",
     title="RAG System with Gradio",
     description="Upload a PDF and ask a query to retrieve answers.",
+    examples=[
+        [None, query] for query in EXAMPLE_QUERIES
+    ],
 )
 
 if __name__ == "__main__":
