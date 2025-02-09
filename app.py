@@ -10,10 +10,11 @@ from langchain.chains import RetrievalQA
 import gradio as gr
 from groq import Groq
 
-load_dotenv()
+# Load API key for Groq
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     raise EnvironmentError("GROQ_API_KEY is missing! Please add it as a secret in the Hugging Face Space settings.")
+
 client = Groq(api_key=api_key)
 
 EXAMPLE_QUERIES = [
@@ -29,43 +30,72 @@ EXAMPLE_QUERIES = [
     "What methodology or approach is discussed in this document?",
 ]
 
-def process_pdf_and_query(pdf_file, query):
+# Persistent storage for PDF vector store
+vector_store = None
+
+def process_pdf(pdf_file):
+    """Loads and processes the uploaded PDF, storing embeddings globally."""
+    global vector_store  # Keep the vector store persistent across function calls
+    
     try:
         loader = PyPDFLoader(pdf_file.name)
         documents = loader.load()
+        
+        # Split text into chunks for processing
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = text_splitter.split_documents(documents)
+
+        # Create embeddings and store them in FAISS
         embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-base-en-v1.5")
         vector_store = FAISS.from_documents(chunks, embeddings)
+
+        return "PDF uploaded and processed successfully. You can now ask questions."
+    
+    except Exception as e:
+        return f"Error processing PDF: {str(e)}"
+
+def query_pdf(query):
+    """Handles user queries using the stored PDF vector store."""
+    global vector_store  # Retrieve the stored embeddings
+
+    if vector_store is None:
+        return "Please upload a PDF first before asking questions."
+    
+    try:
         retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 4})
         retrieved_docs = retriever.get_relevant_documents(query)
+        
         context = "\n\n".join([doc.page_content for doc in retrieved_docs])
         prompt = f"You are a helpful assistant. Based on the following document:\n{context}\nAnswer the question: {query}"
+
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
             model="llama3-8b-8192"
         )
+
         return response.choices[0].message.content
+    
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"Error answering question: {str(e)}"
 
-def rag_interface(pdf, query):
-    if not pdf:
-        return "Please upload a PDF file."
-    if not query:
-        return "Please enter a query."
-    return process_pdf_and_query(pdf, query)
+# Gradio Interface with Stateful Storage
+with gr.Blocks() as interface:
+    gr.Markdown("## RAG System with Gradio - Chat with Your PDF 📄🤖")
 
-interface = gr.Interface(
-    fn=rag_interface,
-    inputs=["file", "text"],
-    outputs="text",
-    title="RAG System with Gradio",
-    description="Upload a PDF and ask a query to retrieve answers.",
-    examples=[
-        [None, query] for query in EXAMPLE_QUERIES
-    ],
-)
+    pdf_input = gr.File(label="Upload a PDF")
+    query_input = gr.Textbox(label="Ask a question about the PDF", placeholder="Type your query here...")
+    submit_button = gr.Button("Submit")
 
-if __name__ == "__main__":
-    interface.launch(server_name="0.0.0.0", share=True)
+    output_text = gr.Textbox(label="Answer")
+
+    # Upload Button & Store PDF Vector Store
+    pdf_upload_button = gr.Button("Process PDF")
+    pdf_upload_status = gr.Textbox(label="Status", interactive=False)
+
+    # Maintain state across interactions
+    pdf_memory = gr.State(None)
+
+    pdf_upload_button.click(process_pdf, inputs=[pdf_input], outputs=[pdf_upload_status], state=pdf_memory)
+    submit_button.click(query_pdf, inputs=[query_input], outputs=[output_text], state=pdf_memory)
+
+interface.launch()
