@@ -1,10 +1,10 @@
 gradio
 groq
-pypdf
-pymupdf
-python-dotenv
-langchain
-langchain-community
-faiss-cpu
-huggingface-hub
+pypdf  # Used for PDF handling
+python-dotenv  # To load environment variables
+langchain  # Core framework for retrieval-augmented generation (RAG)
+langchain-community  # Required for community document loaders like PyPDFLoader
+faiss-cpu  # FAISS for vector search
+huggingface-hub  # Required for loading Hugging Face models
+transformers  # Needed for Hugging Face-based embeddings
 sentence-transformers
