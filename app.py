@@ -1,11 +1,15 @@
 import os
+import pickle
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings  # Updated import
+from langchain_community.vectorstores import FAISS  # Import FAISS
 import gradio as gr
 from groq import Groq
+
+# Ensure the cache directory exists
+os.makedirs("cache", exist_ok=True)
 
 # Load environment variables
 load_dotenv()
@@ -18,12 +22,11 @@ client = Groq(api_key=api_key)
 # Global variable to store the processed PDF vector store
 global_vector_store = None
 
-# Global cache for example PDFs: key is a name, value is the vector store
-example_pdf_cache = {}
+# Global cache for uploaded PDFs (in-memory for the session)
+uploaded_pdf_cache = {}
 
 # Mapping of example PDF names to their file paths (use raw strings for Windows paths)
 EXAMPLE_PDF_FILES = {
-    "AI in Health Care REPORT": r"example_pdfs\AI in Health Care  REPORT.pdf",
     "Using ai to address medical needs": r"example_pdfs\Using ai to address medical needs.pdf",
     "The DevOps Handbook": r"example_pdfs\The DevOps Handbook.pdf",
 }
@@ -31,8 +34,8 @@ EXAMPLE_PDF_FILES = {
 def process_pdf_from_file(file_path):
     """
     Processes a PDF from a file path:
-      - Loads and splits text.
-      - Generates embeddings and builds a vector store.
+    - Loads and splits text. 
+    - Generates embeddings and builds a vector store. 
     """
     try:
         loader = PyPDFLoader(file_path)
@@ -46,19 +49,35 @@ def process_pdf_from_file(file_path):
         print(f"Error processing {file_path}: {e}")
         return None
 
+def save_vector_store_to_disk(vector_store, file_path):
+    """
+    Saves a vector store to disk using pickle.
+    """
+    with open(file_path, "wb") as f:
+        pickle.dump(vector_store, f)
+
+def load_vector_store_from_disk(file_path):
+    """
+    Loads a vector store from disk using pickle.
+    """
+    with open(file_path, "rb") as f:
+        return pickle.load(f)
+
 def load_example_pdf(example_name):
     """
-    Loads an example PDF by its name, using a cache to avoid reprocessing.
+    Loads an example PDF by its name, using a persistent cache to avoid reprocessing.
     """
-    global example_pdf_cache
-    if example_name in example_pdf_cache:
-        return example_pdf_cache[example_name]
+    cache_path = f"cache/{example_name.replace(' ', '_')}_vector_store.pkl"
+    if os.path.exists(cache_path):
+        return load_vector_store_from_disk(cache_path)
+    
     file_path = EXAMPLE_PDF_FILES.get(example_name)
     if file_path is None:
         return None
+
     vector_store = process_pdf_from_file(file_path)
     if vector_store:
-        example_pdf_cache[example_name] = vector_store
+        save_vector_store_to_disk(vector_store, cache_path)
     return vector_store
 
 def query_pdf(query, vector_store):
@@ -86,23 +105,26 @@ def process_pdf_interface(pdf_file, example_pdf):
     Stores the resulting vector store in the global variable.
     """
     global global_vector_store
-    if pdf_file:
+    if pdf_file is not None:
         try:
-            pdf_bytes = pdf_file.read()
-            temp_path = "uploaded_temp.pdf"
-            with open(temp_path, "wb") as f:
-                f.write(pdf_bytes)
+            # Read the uploaded file path directly from gr.File component
+            temp_path = pdf_file.name
             vector_store = process_pdf_from_file(temp_path)
-            global_vector_store = vector_store
-            return "✅ PDF processed from upload."
+            if vector_store:
+                global_vector_store = vector_store
+                uploaded_pdf_cache[temp_path] = vector_store
+                return "✅ PDF processed from upload."
+            else:
+                return "❌ Error processing uploaded PDF."
         except Exception as e:
             return f"❌ Error processing uploaded PDF: {str(e)}"
     elif example_pdf:
         vector_store = load_example_pdf(example_pdf)
-        if vector_store is None:
+        if vector_store:
+            global_vector_store = vector_store
+            return "✅ PDF processed from example selection."
+        else:
             return "❌ Error processing example PDF."
-        global_vector_store = vector_store
-        return "✅ PDF processed from example selection."
     else:
         return "Please upload a PDF or select an example PDF."
 
@@ -138,10 +160,10 @@ with gr.Blocks() as interface:
             gr.Examples(
                 examples=[[q] for q in [
                     "Provide a brief outline of this document.",
-                    "What is the summary points of this document?",
+                    "What are the summary points of this document?",
                     "List the main topics discussed in this document.",
                     "What are the key takeaways from this document?",
-                    "Explain the purpose of this document?",
+                    "Explain the purpose of this document.",
                 ]],
                 inputs=query_input,
                 label="Example Queries"

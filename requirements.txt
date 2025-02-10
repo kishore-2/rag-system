@@ -8,3 +8,4 @@ faiss-cpu  # FAISS for vector search
 huggingface-hub  # Required for loading Hugging Face models
 transformers  # Needed for Hugging Face-based embeddings
 sentence-transformers
+langchain-huggingface
