@@ -3,5 +3,3 @@ env/
 .env
 *.pyc
 *.log
-cache/
-.gradio/
