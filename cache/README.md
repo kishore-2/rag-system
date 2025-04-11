@@ -1,1 +1,0 @@
-### In this directory we store the example pdf's vector embeddings for fast and easy processing
