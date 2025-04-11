@@ -1,3 +1,3 @@
 [submodule "rag-project"]
     path = rag-project
-    url = https://huggingface.co/spaces/huggyy/rag-project
+    url = https://github.com/kishore-2/rag-system.git
