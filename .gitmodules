@@ -1,0 +1,3 @@
+[submodule "rag-project"]
+    path = rag-project
+    url = https://huggingface.co/spaces/huggyy/rag-project
