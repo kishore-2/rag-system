@@ -1,0 +1,11 @@
+gradio # Required for the Gradio interface
+groq # Required for GroQ-based document loaders
+pypdf  # Used for PDF handling
+python-dotenv  # To load environment variables
+langchain  # Core framework for retrieval-augmented generation (RAG)
+langchain-community  # Required for community document loaders like PyPDFLoader
+langchain-huggingface  # Required for Hugging Face-based document loaders
+faiss-cpu  # FAISS for vector search
+huggingface-hub  # Required for loading Hugging Face models
+transformers  # Needed for Hugging Face-based embeddings
+sentence-transformers # Needed for Sentence Transformers-based embeddings
